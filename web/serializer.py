@@ -2,7 +2,7 @@
 from marshmallow import fields
 from marshmallow_sqlalchemy import ModelSchema
 from models import (
-    User, LoginSession, Images, SequentialImages, Location, MyPet
+    User, LoginSession, Images, SequentialImages, Location, Member
 )
 
 
@@ -33,6 +33,6 @@ class LocationSchema(ModelSchema):
         model = Location
 
 
-class MyPetSchema(ModelSchema):
+class MemberSchema(ModelSchema):
     class Meta:
-        model = MyPet
+        model = Member
