@@ -167,15 +167,17 @@ class Member(BaseModel, db.Model):
     location_id = Column(Integer, ForeignKey('location.id'))
     name = Column(String(300))
     sex = Column(String(10))  # "Male" or "Female"
+    lost = Column(Integer)  # 0 or 1
     created_at = Column(DateTime)
 
-    def __init__(self, user_id, image_id, seq_images_id, location_id, name, sex):
+    def __init__(self, user_id, image_id, seq_images_id, location_id, name, sex, lost):
         self.user_id = user_id
         self.image_id = image_id
         self.seq_images_id = seq_images_id
         self.location_id = location_id
         self.name = name
         self.sex = sex
+        self.lost = lost
         self.created_at = datetime.now()
 
 

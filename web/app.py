@@ -281,11 +281,27 @@ class FamilyRegister(Resource):
         success, image = vidcap.read()
         count = 0
         while success:
+            if count >= 60:
+                break
             cv2.imwrite(os.path.join(seq_image_dir, "frame%d.jpg" % count), image)  # save frame as JPEG file
             success, image = vidcap.read()
             print('Read a new frame: ', success)
             count += 1
         ####
+
+        # EXECUTE TRAINING
+
+        ####
+
+        # add family member db
+        new_member = Member(user.id, new_img.id, new_seq_img.id, user.location_id, name, sex, 0)
+        db.session.add(new_member)
+        try:
+            db.session.commit()
+        except Exception as e:
+            abort(500, e)
+
+        return True
 
 
 class FindMyFamily(Resource):
