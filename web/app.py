@@ -22,14 +22,18 @@ from flask_jwt_extended import (
     get_jti, get_raw_jwt)
 from werkzeug.datastructures import FileStorage
 
+import cv2
+cv2.setUseOptimized(True)
+cv2.setNumThreads(12)
+
 from models import (
-    db, User, LoginSession, Images, SequentialImages, Location, MyPet
+    db, User, LoginSession, Images, SequentialImages, Location, Member
 )
 from serializer import (
     UserSchema, LoginSessionSchema, LocationSchema
 )
 from config import basedir, BaseConfig
-from utils import get_ip_address
+from utils import get_ip_address, secure_filename
 
 base_config = BaseConfig()
 LOGGER_ROOT_PATH = base_config.LOGGER_ROOT_PATH
@@ -224,30 +228,80 @@ class UserRefresh(Resource):
         return jsonify({'ok': True, 'data': ret})
 
 
-class MyPetRegister(Resource):
+class FamilyRegister(Resource):
     def post(self):
         data = request.get_json()
         try:
             user_id = data['user_id']
-            pet_name = data['name']
+            name = data['name']
             sex = data['sex']
-            breed = data['breed']
-            filename = data['filename']
-            b64image = data['base64image']
-            #b64video = data['base64video']
+            img_filename = data['img_filename']
+            b64image = data['b64image']  # for profile image!
+            b64video = data['b64video']  # for training images!
             decoded_image = base64.b64decode(b64image)
-            #decoded_video = base64.b64decode(b64video)
+            decoded_video = base64.b64decode(b64video)
+        except Exception as e:
+            abort(400, e)
+        img_data = BytesIO(decoded_image)
+        video_data = BytesIO(decoded_video)
+
+        user = User.query.filter_by(id=user_id).first()
+
+        seq_image_dir = "{}".format(user.name)
+        seq_filename = "{}_{}.mp4".format(user_id, secure_filename(""))
+        seq_image_dir = os.path.join("static",  BaseConfig.SEQUENTIAL_IMAGE_URI, seq_image_dir)
+        seq_image_uri = os.path.join(seq_image_dir, seq_filename)
+        file = FileStorage(video_data, filename=seq_filename)
+        file.save(seq_image_uri)
+
+        # add seq img db
+        new_seq_img = SequentialImages(seq_image_dir, 0)
+        db.session.add(new_seq_img)
+        try:
+            db.session.commit()
+        except Exception as e:
+            abort(500, e)
+
+        img_filename = "{}_{}.{}".format(user_id, secure_filename(""), img_filename.split('.')[-1])
+        img_uri = os.path.join("static", BaseConfig.IMAGE_URI, img_filename)
+        file = FileStorage(img_data, filename=img_filename)
+        file.save(img_uri)
+
+        # add img db
+        new_img = Images(img_uri)
+        db.session.add(new_img)
+        try:
+            db.session.commit()
+        except Exception as e:
+            abort(500, e)
+
+        ####
+        # read and video processing(opencv capture)... and save jpg img...
+        vidcap = cv2.VideoCapture(seq_filename)
+        success, image = vidcap.read()
+        count = 0
+        while success:
+            cv2.imwrite(os.path.join(seq_image_dir, "frame%d.jpg" % count), image)  # save frame as JPEG file
+            success, image = vidcap.read()
+            print('Read a new frame: ', success)
+            count += 1
+        ####
+
+
+class FindMyFamily(Resource):
+    def post(self):
+        data = request.get_json()
+        try:
+            user_id = data['user_id']
+            name = data['name']
+            sex = data['sex']
+            filename = data['filename']
+            b64image = data['b64image']
+            decoded_image = base64.b64decode(b64image)
         except Exception as e:
             abort(400, e)
         file_data = BytesIO(decoded_image)
-        ####
-        # add video processing...
-        ####
-        image_dir = ""
-        filename = "{}_{}_{}".format(pet_name, sex, )
-        image_path = os.path.join(basedir, BaseConfig.IMAGE_URI)
-        file = FileStorage(file_data, filename=filename)
-        file.save(image_path)
+
 
 
 
@@ -255,6 +309,8 @@ api.add_resource(UserList, '/api/users')
 api.add_resource(UserLogin, '/api/auth/login')
 api.add_resource(UserRegister, '/api/auth/register')
 api.add_resource(UserRefresh, '/api/auth/refresh')
+
+api.add_resource(FamilyRegister, '/api/family/register')
 
 
 if __name__ == '__main__':

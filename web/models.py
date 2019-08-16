@@ -157,18 +157,22 @@ class Location(BaseModel, db.Model):
         self.created_at = datetime.now()
 
 
-class MyPet(BaseModel, db.Model):
-    __tablename__ = 'mypet'
+class Member(BaseModel, db.Model):
+    __tablename__ = 'member'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
+    image_id = Column(Integer, ForeignKey('images.id'))
+    seq_images_id = Column(Integer, ForeignKey('sequential_images.id'))
     location_id = Column(Integer, ForeignKey('location.id'))
     name = Column(String(300))
     sex = Column(String(10))  # "Male" or "Female"
     created_at = Column(DateTime)
 
-    def __init__(self, user_id, location_id, name, sex):
+    def __init__(self, user_id, image_id, seq_images_id, location_id, name, sex):
         self.user_id = user_id
+        self.image_id = image_id
+        self.seq_images_id = seq_images_id
         self.location_id = location_id
         self.name = name
         self.sex = sex

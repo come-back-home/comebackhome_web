@@ -1,6 +1,6 @@
-# Petective
+# Comebackhome
 
-Petective :: based on React, Redux, Flask, PostgreSQL, Docker-compose, Nginx<br />
+Comebackhome :: based on React, Redux, Flask, PostgreSQL, Docker-compose, Nginx<br />
 ```
 Python: 3.7 (3.6 ⬆️)
 ```
@@ -11,7 +11,7 @@ Python: 3.7 (3.6 ⬆️)
 1. git clone
 
 ```
-$ git clone https://github.com/mwchoo/petective.git
+$ git clone https://github.com/mwchoo/comebackhome.git
 ```
 
 2. git remote setting

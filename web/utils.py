@@ -2,7 +2,7 @@ import socket
 import os
 import time
 from datetime import datetime
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 
 def get_base_directory():
