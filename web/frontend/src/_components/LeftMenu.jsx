@@ -3,7 +3,7 @@ import { Menu, Icon, Layout, Breadcrumb } from 'antd'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { config } from '../config'
-import { TestAll } from "./TestAll";
+import { MainPage } from "./MainPage";
 import { Page1_1 } from "./Page1_1";
 
 import classNames from 'classnames/bind'
@@ -21,7 +21,7 @@ class LeftMenu extends React.Component {
 
     this.state = {
       location: '',
-      contents: <TestAll />,  // default page
+      contents: <MainPage />,  // default page
       status: 0  // whether the test is running
     }
   }
@@ -31,9 +31,9 @@ class LeftMenu extends React.Component {
       this.setState({location: e.key});
       switch (e.key) {
         case '1':
-          this.setState({contents: <TestAll/>});
+          this.setState({contents: <MainPage/>});
           break;
-        case '2_1':
+        case '2':
           this.setState({contents: <Page1_1/>});
           break;
       }
@@ -41,7 +41,7 @@ class LeftMenu extends React.Component {
   };
 
   render() {
-    let contents = <TestAll />;
+    let contents = <MainPage />;
 
     return (
       <Layout>
@@ -62,8 +62,8 @@ class LeftMenu extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="1" onClick={this.menu_click}>Test All</Menu.Item>
-              <Menu.Item key="2_1" onClick={this.menu_click}>Page 1_1</Menu.Item>
+              <Menu.Item key="1" onClick={this.menu_click}>Main</Menu.Item>
+              <Menu.Item key="2" onClick={this.menu_click}>Page 1</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>

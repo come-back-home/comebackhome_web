@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 const { Title } = Typography;
 const { Step } = Steps;
 
-class TestAll extends React.Component {
+class MainPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -62,5 +62,5 @@ function mapStateToProps(state) {
 }
 
 const connectedContents = connect(mapStateToProps, {
-})(TestAll);
-export { connectedContents as TestAll }
+})(MainPage);
+export { connectedContents as MainPage }

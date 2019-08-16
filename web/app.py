@@ -30,7 +30,7 @@ from models import (
     db, User, LoginSession, Images, SequentialImages, Location, Member
 )
 from serializer import (
-    UserSchema, LoginSessionSchema, LocationSchema
+    UserSchema, LoginSessionSchema, LocationSchema, MemberSchema
 )
 from config import basedir, BaseConfig
 from utils import get_ip_address, secure_filename
@@ -301,7 +301,8 @@ class FamilyRegister(Resource):
         except Exception as e:
             abort(500, e)
 
-        return True
+        serialized_result = query_serializer(MemberSchema, new_member)
+        return jsonify(serialized_result)
 
 
 class FindMyFamily(Resource):
@@ -317,8 +318,21 @@ class FindMyFamily(Resource):
         except Exception as e:
             abort(400, e)
         file_data = BytesIO(decoded_image)
+        file = FileStorage(file_data, filename=filename)
+        img_uri = os.path.join("static", BaseConfig.IMAGE_URI, filename)
+        file.save(img_uri)
 
+        new_image = Images(img_uri)
+        db.session.add(new_image)
+        try:
+            db.session.commit()
+        except Exception as e:
+            abort(500, e)
 
+        # PREDICTION
+
+        ####
+        return jsonify()
 
 
 api.add_resource(UserList, '/api/users')
@@ -327,9 +341,10 @@ api.add_resource(UserRegister, '/api/auth/register')
 api.add_resource(UserRefresh, '/api/auth/refresh')
 
 api.add_resource(FamilyRegister, '/api/family/register')
+api.add_resource(FindMyFamily, '/api/family/find')
 
 
 if __name__ == '__main__':
     ip_address = get_ip_address()
     # app.run(host=ip_address, port=BaseConfig.APP_PORT)
-    app.ru
+    app.run(host=BaseConfig.APP_HOST, port=BaseConfig.APP_PORT, debug=True, threaded=True)
