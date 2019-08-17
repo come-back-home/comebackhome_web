@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { config } from '../config'
 import { MainPage } from "./MainPage";
-import { Page1_1 } from "./Page1_1";
+import { RegisterPage } from "./RegisterPage";
 
 import classNames from 'classnames/bind'
 //import styles from '../_styles/antd.scss'
@@ -34,7 +34,7 @@ class LeftMenu extends React.Component {
           this.setState({contents: <MainPage/>});
           break;
         case '2':
-          this.setState({contents: <Page1_1/>});
+          this.setState({contents: <RegisterPage/>});
           break;
       }
     }
