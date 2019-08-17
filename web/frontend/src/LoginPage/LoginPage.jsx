@@ -28,10 +28,10 @@ class LoginPage extends React.Component {
         <div className={cx('container')}>
           {this.state.isLoginPage &&
             <div className={cx('login')}>
-              <img
+              /*<img
                 src={config.apiUrl + '/static/assets/icons/CI.png'}
                 alt='Petective-CI'
-              />
+              />*/
               <h2>2019 SV - <strong>{config.appName}</strong></h2>
               <WrappedLoginForm />
             </div>

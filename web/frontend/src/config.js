@@ -1,9 +1,9 @@
 const config = {
   appName: 'Comebackhome',
-  apiUrl: 'http://0.0.0.0:7001',
+  apiUrl: 'http://0.0.0.0:5000',
   imageUrl: 'http://0.0.0.0',
-  debug: false,
-  production: true
+  debug: true,
+  production: false
 };
 if (config.production) {
   config.appName = 'Comebackhome';

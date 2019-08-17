@@ -3,9 +3,15 @@ $color-base: rgba(58, 174, 158, 1);
 $color-black: rgba(0, 0, 0, 1);
 $color-white: rgba(255, 255, 255, 1);
 .navContainer {
-    background: $color-background;
+    background: #222222;
     width: 100%;
     .logo {
+    }
+    .nav-logo {
+        color: whitesmoke;
+        font-weight: bolder;
+        font-size: 20px;
+        margin: 0;
     }
     .userInfo {
         float: right;
@@ -26,7 +32,7 @@ $color-white: rgba(255, 255, 255, 1);
             padding: 0 0 0 10px;
         }
         &.ant-menu-submenu > .ant-menu {
-            background: $color-background !important;
+            background: #222222 !important;
             &.ant-menu-sub {
                 &.ant-menu-vertical {
                 }
@@ -36,14 +42,14 @@ $color-white: rgba(255, 255, 255, 1);
 
 }
 .ant-menu-horizontal {
-    border-bottom: 1px solid $color-background;
+    border-bottom: 1px solid #222222;
 }
 .settings {
     &.ant-menu-submenu-popup {
-        background: $color-background;
+        background: #222222;
     }
     &.ant-menu-submenu > .ant-menu {
-        background: $color-background;
+        background: #222222;
         .ant-menu-item-group {
             .ant-menu-item-group-title {
                 color: #bebebe;

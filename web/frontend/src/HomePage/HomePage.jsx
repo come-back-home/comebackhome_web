@@ -1,10 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { initEnvironment, userActions } from '../_actions'
-import { NavContainer } from '../_containers'
-import { LeftMenuContainer } from '../_containers'
-import classNames from 'classnames/bind'
-import styles from './HomePage.module.scss'
+import React from 'react';
+import { connect } from 'react-redux';
+import { initEnvironment, userActions } from '../_actions';
+import { NavContainer } from '../_containers';
+import { LeftMenuContainer } from '../_containers';
+import { MainPageContainer } from "../_containers/MainPageContainer";
+import classNames from 'classnames/bind';
+import styles from './HomePage.module.scss';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 const { SubMenu } = Menu;
@@ -26,7 +27,8 @@ class HomePage extends React.Component {
       <div className={cx('container')}>
         <NavContainer />
         <div className={cx('mainContainer')}>
-          <LeftMenuContainer />
+          {/*<LeftMenuContainer />*/}
+          <MainPageContainer/>
         </div>
       </div>
     )

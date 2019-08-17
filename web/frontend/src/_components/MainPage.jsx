@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { config } from '../config'
 
 import classNames from 'classnames/bind'
-import styles from './TestContent.scss'
+import styles from './MainPage.scss'
 const cx = classNames.bind(styles);
 const { Title } = Typography;
 const { Step } = Steps;
@@ -34,21 +34,26 @@ class MainPage extends React.Component {
 
   render() {
     return (
-      <Typography>
-        <Title level={2} className={cx("test-title")}><Icon type="play-circle" /> Combined Test</Title>
-        <Button type="primary" className={cx("run-button")} loading={this.state.loading} onClick={this.enterLoading}>
-          Run
-        </Button>
-
-        <div className={cx("test-wrapper")}>
-          <Title level={3}>1. Network Test</Title>
-          <Steps current={0} className={cx("progress-wrapper")}>
-            <Step title="Waiting" description="Prepare scp/scu test." />
-            <Step title="In Progress" description="Pending..." />
-            <Step title="Finished" description="Done!" />
-          </Steps>
+      <div className={cx('MainPageContainer')}>
+        <div className={cx('top-wrapper')}>
+          <img style={{ width: '100%' }}
+               src={config.apiUrl + '/static/images/bg2.png'}
+               alt='logo' />
+          <div className={cx('text-wrapper')}>
+            <Typography>
+              <h1>Find my family and back to the home.</h1>
+            </Typography>
+          </div>
         </div>
-      </Typography>
+        <div className={cx('bottom-wrapper')}>
+          <div className={cx('register-area')}>
+
+          </div>
+          <div className={cx('find-area')}>
+
+          </div>
+        </div>
+      </div>
     )
   }
 }

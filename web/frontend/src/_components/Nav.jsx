@@ -39,9 +39,10 @@ class Nav extends React.Component {
       >
         <Menu.Item className={cx('logo')} key='logo'>
           <a href='/'>
-            <img style={{ height: '16px' }}
+            <p className={cx('nav-logo')}>Comebackhome</p>
+            {/*<img style={{ height: '16px' }}
               src={config.apiUrl + '/static/assets/icons/CI.png'}
-              alt='logo' />
+              alt='logo' />*/}
           </a>
         </Menu.Item>
         <SubMenu className={cx('settings')} title={
