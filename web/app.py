@@ -1,7 +1,3 @@
-"""
-(c) 2019 Minwoo Choo All rights reserved. :: Comebackhome
-"""
-
 import os
 import logger
 import base64
