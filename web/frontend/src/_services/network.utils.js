@@ -29,7 +29,7 @@ function get(uri) {
   return fetch(`${config.apiUrl + uri}`, requestOptions).then(handleResponse)
 }
 
-
+/*
 function post(uri, jsondata) {
   const requestOptions = {
     method: 'POST',
@@ -41,6 +41,14 @@ function post(uri, jsondata) {
     .then(response => {
       return response.data
     })
+}
+*/
+
+function post(uri, data) {
+  var request = new XMLHttpRequest();
+  request.open('POST', `${config.apiUrl + uri}`, true);
+  request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+  request.send(data);
 }
 
 
@@ -72,9 +80,15 @@ function del(uri, jsondata) {
 }
 
 
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
 export const networkUtils = {
   get,
   post,
   put,
-  del
+  del,
+  sleep
 };

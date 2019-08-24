@@ -33,7 +33,7 @@ from serializer import (
     UserSchema, LoginSessionSchema, LocationSchema, MemberSchema
 )
 from config import basedir, BaseConfig
-from utils import get_ip_address, secure_filename
+from utils import get_ip_address, mkdir, get_filename_appended_date
 
 base_config = BaseConfig()
 LOGGER_ROOT_PATH = base_config.LOGGER_ROOT_PATH
@@ -232,26 +232,31 @@ class FamilyRegister(Resource):
     def post(self):
         data = request.get_json()
         try:
-            user_id = data['user_id']
+            #user_id = data['user_id']
             name = data['name']
-            sex = data['sex']
-            img_filename = data['img_filename']
-            b64image = data['b64image']  # for profile image!
+            #sex = data['sex']
+            #img_filename = data['img_filename']
+            #b64image = data['b64image']  # for profile image!
             b64video = data['b64video']  # for training images!
-            decoded_image = base64.b64decode(b64image)
+            training = data['training']
+            #decoded_image = base64.b64decode(b64image)
             decoded_video = base64.b64decode(b64video)
         except Exception as e:
+            print(e)
             abort(400, e)
-        img_data = BytesIO(decoded_image)
+        #img_data = BytesIO(decoded_image)
         video_data = BytesIO(decoded_video)
 
-        user = User.query.filter_by(id=user_id).first()
+        #user = User.query.filter_by(id=user_id).first()
 
-        seq_image_dir = "{}".format(user.name)
-        seq_filename = "{}_{}.mp4".format(user_id, secure_filename(""))
-        seq_image_dir = os.path.join("static",  BaseConfig.SEQUENTIAL_IMAGE_URI, seq_image_dir)
+        seq_image_dir = "{}".format(name)
+        user_id = 1  # test...
+        seq_filename = "{}_{}.jpg".format(user_id, get_filename_appended_date(""))
+        seq_image_dir = os.path.join("web", "static",  BaseConfig.SEQUENTIAL_IMAGE_URI, seq_image_dir)
         seq_image_uri = os.path.join(seq_image_dir, seq_filename)
         file = FileStorage(video_data, filename=seq_filename)
+
+        mkdir(seq_image_dir)
         file.save(seq_image_uri)
 
         # add seq img db
@@ -290,10 +295,12 @@ class FamilyRegister(Resource):
         ####
 
         # EXECUTE TRAINING
-
+        if training == 1:
+            print("training!")
         ####
 
         # add family member db
+        '''
         new_member = Member(user.id, new_img.id, new_seq_img.id, user.location_id, name, sex, 0)
         db.session.add(new_member)
         try:
@@ -303,6 +310,7 @@ class FamilyRegister(Resource):
 
         serialized_result = query_serializer(MemberSchema, new_member)
         return jsonify(serialized_result)
+        '''
 
 
 class FindMyFamily(Resource):

@@ -7,6 +7,8 @@ import { history } from './_helpers'
 import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './HomePage'
+import { Register } from "./HomePage/Register";
+import { Find } from "./HomePage/Find";
 import { LoginPage } from './LoginPage'
 import { ForgotPage } from './ForgotPage'
 import classNames from 'classnames/bind'
@@ -35,6 +37,8 @@ class App extends React.Component {
         <Router history={history}>
           <div className={cx('container')}>
             <PrivateRoute exact path='/' component={HomePage} {...this.props} />
+            <Route path='/family-register' component={Register} {...this.props} />
+            <Route path='/find' component={Find} {...this.props} />
             <Route path='/login' component={LoginPage} />
             <Route path='/forgot' component={ForgotPage} />
             <Route path='/register' component={LoginPage} />
